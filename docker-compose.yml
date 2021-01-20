@@ -2,8 +2,8 @@ version: "3"
 
 services:
   map:
-    container_name: sudan-tileserver
-    image: overv/openstreetmap-tile-server
+    container_name: sudan-tile-server
+    build: .
     volumes:
       - openstreetmap-data:/var/lib/postgresql/12/main
       - openstreetmap-rendered-tiles:/var/lib/mod_tile
