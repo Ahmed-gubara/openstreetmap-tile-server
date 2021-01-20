@@ -13,7 +13,6 @@ services:
     command: "run"
     shm_size: 128M
     restart: always
-    mem_limit: 1000M
     logging:
       driver: "json-file"
       options:
