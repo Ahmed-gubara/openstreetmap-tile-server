@@ -1,14 +1,27 @@
-version: '3'
+version: "3"
 
 services:
   map:
+    container_name: sudan-tileserver
     image: overv/openstreetmap-tile-server
     volumes:
       - openstreetmap-data:/var/lib/postgresql/12/main
+      - openstreetmap-rendered-tiles:/var/lib/mod_tile
+      - ./map-data/sudan-latest.osm.pbf:/data.osm.pbf
     ports:
-      - "8080:80"
+      - "5505:80"
     command: "run"
+    shm_size: 128M
+    restart: always
+    mem_limit: 1000M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "10"
 
 volumes:
   openstreetmap-data:
+    external: true
+  openstreetmap-rendered-tiles:
     external: true

@@ -3,9 +3,9 @@
 set -x
 
 function createPostgresConfig() {
-  cp /etc/postgresql/12/main/postgresql.custom.conf.tmpl /etc/postgresql/12/main/conf.d/postgresql.custom.conf
-  sudo -u postgres echo "autovacuum = $AUTOVACUUM" >> /etc/postgresql/12/main/conf.d/postgresql.custom.conf
-  cat /etc/postgresql/12/main/conf.d/postgresql.custom.conf
+    cp /etc/postgresql/12/main/postgresql.custom.conf.tmpl /etc/postgresql/12/main/conf.d/postgresql.custom.conf
+    sudo -u postgres echo "autovacuum = $AUTOVACUUM" >>/etc/postgresql/12/main/conf.d/postgresql.custom.conf
+    cat /etc/postgresql/12/main/conf.d/postgresql.custom.conf
 }
 
 function setPostgresPassword() {
@@ -59,8 +59,8 @@ if [ "$1" = "import" ]; then
 
     if [ "$UPDATES" = "enabled" ]; then
         # determine and set osmosis_replication_timestamp (for consecutive updates)
-        osmium fileinfo /data.osm.pbf > /var/lib/mod_tile/data.osm.pbf.info
-        osmium fileinfo /data.osm.pbf | grep 'osmosis_replication_timestamp=' | cut -b35-44 > /var/lib/mod_tile/replication_timestamp.txt
+        osmium fileinfo /data.osm.pbf >/var/lib/mod_tile/data.osm.pbf.info
+        osmium fileinfo /data.osm.pbf | grep 'osmosis_replication_timestamp=' | cut -b35-44 >/var/lib/mod_tile/replication_timestamp.txt
         REPLICATION_TIMESTAMP=$(cat /var/lib/mod_tile/replication_timestamp.txt)
 
         # initial setup of osmosis workspace (for consecutive updates)
@@ -95,7 +95,7 @@ if [ "$1" = "run" ]; then
 
     # Configure Apache CORS
     if [ "$ALLOW_CORS" == "enabled" ] || [ "$ALLOW_CORS" == "1" ]; then
-        echo "export APACHE_ARGUMENTS='-D ALLOW_CORS'" >> /etc/apache2/envvars
+        echo "export APACHE_ARGUMENTS='-D ALLOW_CORS'" >>/etc/apache2/envvars
     fi
 
     # Initialize PostgreSQL and Apache
@@ -109,7 +109,7 @@ if [ "$1" = "run" ]; then
 
     # start cron job to trigger consecutive updates
     if [ "$UPDATES" = "enabled" ] || [ "$UPDATES" = "1" ]; then
-      /etc/init.d/cron start
+        /etc/init.d/cron start
     fi
 
     # Run while handling docker stop's SIGTERM
