@@ -135,7 +135,16 @@ RUN mkdir -p /home/renderer/src \
 # Configure renderd
 RUN sed -i 's/renderaccount/renderer/g' /usr/local/etc/renderd.conf \
   && sed -i 's/\/truetype//g' /usr/local/etc/renderd.conf \
-  && sed -i 's/hot/tile/g' /usr/local/etc/renderd.conf
+  && sed -i 's/hot/tile/g' /usr/local/etc/renderd.conf  \
+  && echo ";adding conf for service tiles with 2x resolution, using Dockerfile echo" >> /usr/local/etc/renderd.conf  \ 
+  && echo "[retina]" >> /usr/local/etc/renderd.conf  \ 
+  && echo "URI=/title@2x/" >> /usr/local/etc/renderd.conf  \ 
+  && echo "TILEDIR=/var/lib/mod_tile" >> /usr/local/etc/renderd.conf  \ 
+  && echo "/home/renderer/src/openstreetmap-carto/mapnik.xml" >> /usr/local/etc/renderd.conf  \ 
+  && echo "HOST=localhost" >> /usr/local/etc/renderd.conf  \ 
+  && echo "SCALE=2.0" >> /usr/local/etc/renderd.conf  \ 
+  && echo "TILESIZE=256" >> /usr/local/etc/renderd.conf  \ 
+  && echo "MAXZOOM=19" >> /usr/local/etc/renderd.conf 
 
 
 # Configure Apache
